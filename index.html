@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RAG-FastAPI Interaction</title>
+</head>
+<body>
+    <h1>Interact with RAG-FastAPI</h1>
+    <button id="getDataButton">Query Data</button>
+    <div id="responseContainer"></div>
+
+    <script>
+        const getDataButton = document.getElementById('getDataButton');
+        const responseContainer = document.getElementById('responseContainer');
+        const apiUrl = 'https://rag-fastapi-rtak.onrender.com/query'; // Replace with your Render app URL and API endpoint
+
+        getDataButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                responseContainer.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
