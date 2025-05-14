@@ -25,17 +25,27 @@
     <div id="input-container">
         <label for="question">Your Question:</label>
         <input type="text" id="question" name="question" size="50">
-        <button id="submit-question">Submit Question</button>
+        <button id="submit-question">Submit Query</button>
     </div>
 
     <h2>API Response:</h2>
-    <div id="response-container">Waiting for response...</div>
+    <div id="response-container">Please input a query:</div>
 
     <script>
         const questionInput = document.getElementById('question');
         const submitButton = document.getElementById('submit-question');
         const responseContainer = document.getElementById('response-container');
         const apiUrlBase = 'https://rag-fastapi-rtak.onrender.com/query'; // Replace with the base URL of your API
+
+        questionInput.addEventListener('keypress', function(event) {
+            // If the user presses the "Enter" key on their keyboard
+            if (event.key === "Enter") {
+                // Prevent the default action of Enter (which might be submitting a form)
+                event.preventDefault();
+                // Trigger the click event of the submit button
+                submitButton.click();
+            }
+        }); 
 
         submitButton.addEventListener('click', async () => {
             const question = questionInput.value.trim();
