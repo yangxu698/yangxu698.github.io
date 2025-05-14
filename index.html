@@ -35,13 +35,13 @@
         const questionInput = document.getElementById('question');
         const submitButton = document.getElementById('submit-question');
         const responseContainer = document.getElementById('response-container');
-        const apiUrlBase = 'https://rag-fastapi-rtak.onrender.com/query'; // Replace with the base URL of your API
+        const apiUrlBase = 'YOUR_API_ENDPOINT_BASE_URL'; // Replace with the base URL of your API
 
         submitButton.addEventListener('click', async () => {
             const question = questionInput.value.trim();
 
             if (question) {
-                const apiUrlWithQuery = `${apiUrlBase}?query=${encodeURIComponent(question)}`;
+                const apiUrlWithQuery = `${apiUrlBase}?keyword=${encodeURIComponent(question)}`;
 
                 try {
                     responseContainer.textContent = 'Loading...';
@@ -52,7 +52,14 @@
                     }
 
                     const data = await response.json();
-                    responseContainer.textContent = JSON.stringify(data, null, 2); // Display formatted JSON
+
+                    // Check if 'query' and 'response' fields exist in the data
+                    if (data && data.query !== undefined && data.response !== undefined) {
+                        responseContainer.textContent = `Query: ${data.query}\nResponse: ${data.response}`;
+                    } else {
+                        responseContainer.textContent = 'Error: API response does not contain "query" and "response" fields.';
+                    }
+
                 } catch (error) {
                     responseContainer.textContent = `Error: ${error.message}`;
                 }
