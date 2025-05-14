@@ -35,13 +35,13 @@
         const questionInput = document.getElementById('question');
         const submitButton = document.getElementById('submit-question');
         const responseContainer = document.getElementById('response-container');
-        const apiUrlBase = 'https://rag-fastapi-rtak.onrender.com/query?'; // Replace with the base URL of your API
+        const apiUrlBase = 'https://rag-fastapi-rtak.onrender.com/query'; // Replace with the base URL of your API
 
         submitButton.addEventListener('click', async () => {
             const question = questionInput.value.trim();
 
             if (question) {
-                const apiUrlWithQuery = `${apiUrlBase}?keyword=${encodeURIComponent(question)}`;
+                const apiUrlWithQuery = `${apiUrlBase}?query=${encodeURIComponent(question)}`;
 
                 try {
                     responseContainer.textContent = 'Loading...';
