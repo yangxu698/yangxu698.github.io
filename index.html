@@ -55,7 +55,7 @@
 
                     // Check if 'query' and 'response' fields exist in the data
                     if (data && data.query !== undefined && data.response !== undefined) {
-                        responseContainer.textContent = `Query: ${data.query}\nResponse: ${data.response}`;
+                        responseContainer.textContent = `Query: ${data.query}\nResponse: ${data.response.content}`;
                     } else {
                         responseContainer.textContent = 'Error: API response does not contain "query" and "response" fields.';
                     }
