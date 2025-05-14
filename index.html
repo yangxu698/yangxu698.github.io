@@ -1,27 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>RAG-FastAPI Interaction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question to API</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        #input-container {
+            margin-bottom: 20px;
+        }
+        #response-container {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap; /* Preserve formatting of JSON response */
+        }
+    </style>
 </head>
 <body>
-    <h1>Interact with RAG-FastAPI</h1>
-    <button id="getDataButton">Query Data</button>
-    <div id="responseContainer"></div>
+    <h1>Ask a Question</h1>
+
+    <div id="input-container">
+        <label for="question">Your Question:</label>
+        <input type="text" id="question" name="question" size="50">
+        <button id="submit-question">Submit Question</button>
+    </div>
+
+    <h2>API Response:</h2>
+    <div id="response-container">Waiting for response...</div>
 
     <script>
-        const getDataButton = document.getElementById('getDataButton');
-        const responseContainer = document.getElementById('responseContainer');
-        const apiUrl = 'https://rag-fastapi-rtak.onrender.com/query'; // Replace with your Render app URL and API endpoint
+        const questionInput = document.getElementById('question');
+        const submitButton = document.getElementById('submit-question');
+        const responseContainer = document.getElementById('response-container');
+        const apiUrlBase = 'https://rag-fastapi-rtak.onrender.com/query'; // Replace with the base URL of your API
 
-        getDataButton.addEventListener('click', async () => {
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                responseContainer.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                responseContainer.textContent = `Error: ${error.message}`;
+        submitButton.addEventListener('click', async () => {
+            const question = questionInput.value.trim();
+
+            if (question) {
+                const apiUrlWithQuery = `${apiUrlBase}?query=${encodeURIComponent(question)}`;
+
+                try {
+                    responseContainer.textContent = 'Loading...';
+                    const response = await fetch(apiUrlWithQuery);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    responseContainer.textContent = JSON.stringify(data, null, 2); // Display formatted JSON
+                } catch (error) {
+                    responseContainer.textContent = `Error: ${error.message}`;
+                }
+            } else {
+                responseContainer.textContent = 'Please enter a question.';
             }
         });
     </script>
+
 </body>
 </html>
